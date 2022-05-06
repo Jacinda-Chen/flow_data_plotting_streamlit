@@ -1,0 +1,6 @@
+streamlit==1.2.0
+pandas
+numpy
+seaborn
+adjustText==0.7.3
+streamlit-aggrid==0.2.3
