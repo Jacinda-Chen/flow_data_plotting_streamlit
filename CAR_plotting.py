@@ -13,7 +13,7 @@ from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 st.markdown("<h1 style = 'text-align: center;'>Plotting CAR Screen Data</h1>", unsafe_allow_html=True)
 
 # upload file
-uploaded_file = st.file_uploader("Upload a CSV/Excel file!", type=['.xlsx', '.xls', '.csv'], accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False)
+uploaded_file = st.file_uploader("Upload a CSV/Excel file!", type=['.xlsx', '.xls', '.csv'], accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None)
 
 if uploaded_file is not None:
     # Store uploaded file into df
