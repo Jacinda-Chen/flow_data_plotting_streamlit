@@ -105,7 +105,7 @@ if uploaded_file is not None:
             palette_option = st.selectbox('Palette Option', ['Set1', 'Set2', 'Set1_r', 'Set2_r', 'Paired', 'Accent'])
         if plot_option != "Histogram" and plot_option != "Bar":
             annotation_option = st.selectbox('Annotation Option', groups[1:])
-        number = st.number_input("Insert max y-axis")
+        number = st.number_input("Insert max y-axis", value = 0)
 
     # Plotting with seaborn
 
