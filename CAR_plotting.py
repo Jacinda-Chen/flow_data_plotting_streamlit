@@ -22,11 +22,14 @@ if uploaded_file is not None:
 
     # Store groups
     groups = ['None']
+    grouping = ['None']
     y_groups = []
     # Store groups for categorical labels of groups less than or equal to 10
     for column in df.columns.tolist():
         if str(df.dtypes[column]) == "object":
             groups.append(column)
+            if len(set(df[column])) <= 25:
+                grouping.append(column)
         else:
             y_groups.append(column)
 
@@ -90,7 +93,7 @@ if uploaded_file is not None:
         if plot_option == "Box":
             palette_option = st.selectbox('Palette Option', ['Set1', 'Set2', 'Set1_r', 'Set2_r', 'Paired', 'Accent'])
         if plot_option != "Histogram" and plot_option != "Box":
-            grouping_option = st.selectbox('Grouping Option', groups)
+            grouping_option = st.selectbox('Grouping Option', grouping)
             palette_option = st.selectbox('Palette Option', ['Set1', 'Set2', 'Set1_r', 'Set2_r', 'Paired', 'Accent'])
         if plot_option != "Histogram" and plot_option != "Bar":
             annotation_option = st.selectbox('Annotation Option', groups[1:])
