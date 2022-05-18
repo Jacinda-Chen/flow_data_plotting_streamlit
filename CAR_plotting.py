@@ -136,8 +136,8 @@ if uploaded_file is not None:
         if number == 0:
             plt.ylim(0, None)
         else: plt.ylim(0, number)
-        # set xlim to -0.5
-        plt.xlim(-0.5, None)
+        # set xlim to -1
+        plt.xlim(-1, None)
         # Rotate x tick labels by 90 degrees
         plt.xticks(rotation=90)
         st.pyplot(fig)
@@ -152,7 +152,7 @@ if uploaded_file is not None:
         ax = sns.barplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option, dodge = False)
         ax.set_xticklabels(ax.get_xticklabels(),rotation = 90)
         plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
-        plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
+        plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
         # set y axis max if user entered a number
         if number == 0:
             plt.ylim(0, None)
@@ -182,7 +182,7 @@ if uploaded_file is not None:
                 
         adjust_text(anno_ls, ax = ax)
 
-        plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
+        plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
         # set y axis max if user entered a number
         if number == 0:
             plt.ylim(0, None)
@@ -194,7 +194,7 @@ if uploaded_file is not None:
         fig, ax = plt.subplots()
         sns.histplot(ax=ax, data=df, x = x_axis_option)
         ax.set_xlim(0, None)
-        plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
+        plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
         # set y axis max if user entered a number
         if number == 0:
             plt.ylim(0, None)
