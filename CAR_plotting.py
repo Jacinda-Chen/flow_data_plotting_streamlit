@@ -26,8 +26,7 @@ if uploaded_file is not None:
     # Store groups for categorical labels of groups less than or equal to 10
     for column in df.columns.tolist():
         if str(df.dtypes[column]) == "object":
-            if len(set(df[column])) <= 10:
-                groups.append(column)
+            groups.append(column)
         else:
             y_groups.append(column)
 
