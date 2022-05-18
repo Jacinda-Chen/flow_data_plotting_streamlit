@@ -116,6 +116,7 @@ if uploaded_file is not None:
             hue = grouping_option
         fig, ax = plt.subplots()
         sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option)
+        ax.set_xticklabels(ax.get_xticklabels(),rotation = 90)
         
         # Annotate
         adjusttext = []
@@ -133,7 +134,6 @@ if uploaded_file is not None:
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
         plt.ylim(0, None)
         plt.xlim(0, None)
-        ax.set_xticklabels(ax.get_xticklabels(),rotation = 90)
         st.pyplot(fig)
 
     elif plot_option == 'Bar':
