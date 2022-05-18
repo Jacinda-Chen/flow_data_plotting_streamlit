@@ -98,6 +98,7 @@ if uploaded_file is not None:
             x_axis_option = st.selectbox('X-Axis', df.columns.tolist())
         if plot_option != "Histogram":
             y_axis_option = st.selectbox('Y-Axis', y_groups)
+        number = st.number_input("Insert max y-axis", value = 0)
         if plot_option == "Box":
             palette_option = st.selectbox('Palette Option', ['Set1', 'Set2', 'Set1_r', 'Set2_r', 'Paired', 'Accent'])
         if plot_option != "Histogram" and plot_option != "Box":
@@ -105,7 +106,6 @@ if uploaded_file is not None:
             palette_option = st.selectbox('Palette Option', ['Set1', 'Set2', 'Set1_r', 'Set2_r', 'Paired', 'Accent'])
         if plot_option != "Histogram" and plot_option != "Bar":
             annotation_option = st.selectbox('Annotation Option', groups[1:])
-        number = st.number_input("Insert max y-axis", value = 0)
 
     # Plotting with seaborn
 
@@ -132,7 +132,10 @@ if uploaded_file is not None:
 
         plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
-        plt.ylim(0, None)
+        # set y axis max if user entered a number
+        if number != 0:
+            plt.ylim(0, None)
+        else: plt.ylim(0, number)
         plt.xlim(0, None)
         # Rotate x tick labels by 90 degrees
         plt.xticks(rotation=90)
