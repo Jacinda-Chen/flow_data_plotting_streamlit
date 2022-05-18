@@ -88,7 +88,8 @@ if uploaded_file is not None:
     # Create sidebar options for axes and grouping 
     with st.sidebar:
         plot_option = st.selectbox('Plot Option', ['Scatter', 'Bar', 'Box', 'Histogram'])
-        figure_size_option = st.slider('Figure Size Option', 5, 15, 5)
+        figure_size_option_x = st.slider('Figure Size X Option', 5, 15, 5)
+        figure_size_option_y = st.slider('Figure Size Y Option', 5, 15, 5)
         if plot_option == "Box":
             x_axis_option = st.selectbox('X-Axis', groups[1:])
         elif plot_option == "Histogram":
@@ -130,7 +131,7 @@ if uploaded_file is not None:
             adjust_text(adjusttext)
 
         plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
-        plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
+        plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
         # set y axis max if user entered a number
         if number == 0:
             plt.ylim(0, None)
