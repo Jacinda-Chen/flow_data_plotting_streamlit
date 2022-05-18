@@ -116,7 +116,6 @@ if uploaded_file is not None:
             hue = grouping_option
         fig, ax = plt.subplots()
         sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option)
-        ax.set_xticklabels(ax.get_xticklabels(),rotation = 90)
         
         # Annotate
         adjusttext = []
@@ -134,20 +133,24 @@ if uploaded_file is not None:
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
         plt.ylim(0, None)
         plt.xlim(0, None)
+        plt.xticks(rotation=90)
         st.pyplot(fig)
 
+    # Plot Bar
     elif plot_option == 'Bar':
         if grouping_option == 'None':
             hue = None
         else:
             hue = grouping_option
         fig, ax = plt.subplots()
-        sns.barplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option, dodge = False)
+        ax = sns.barplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option, dodge = False)
+        ax.set_xticklabels(ax.get_xticklabels(),rotation = 90)
         plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
         plt.ylim(0, None)
         st.pyplot(fig)
 
+    # Plot Box Plot
     elif plot_option == 'Box':
         fig, ax = plt.subplots()
         sns.boxplot(color = "white", ax=ax, data=df, x = x_axis_option, y = y_axis_option, dodge = False)
@@ -171,6 +174,7 @@ if uploaded_file is not None:
         adjust_text(anno_ls, ax = ax)
 
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
+        plt.xticks(rotation=90)
         st.pyplot(fig)
 
     elif plot_option == "Histogram":
@@ -178,4 +182,5 @@ if uploaded_file is not None:
         sns.histplot(ax=ax, data=df, x = x_axis_option)
         ax.set_xlim(0, None)
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
+        plt.xticks(rotation=90)
         st.pyplot(fig)
