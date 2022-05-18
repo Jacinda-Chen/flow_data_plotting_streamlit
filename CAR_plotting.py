@@ -37,9 +37,9 @@ if uploaded_file is not None:
     #features
     enable_selection=True
     if enable_selection:
-        selection_mode == "multiple"
+        st.sidebar.subheader("Plotting Options")
+        selection_mode = 'multiple'
         rowMultiSelectWithClick = st.sidebar.checkbox("Multiselect with click (instead of holding CTRL)", value=False)
-
 
         
         use_checkbox = True
