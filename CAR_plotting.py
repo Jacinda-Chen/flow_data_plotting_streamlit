@@ -136,7 +136,8 @@ if uploaded_file is not None:
         if number == 0:
             plt.ylim(0, None)
         else: plt.ylim(0, number)
-        plt.xlim(0, None)
+        # set xlim to -5
+        plt.xlim(-5, None)
         # Rotate x tick labels by 90 degrees
         plt.xticks(rotation=90)
         st.pyplot(fig)
