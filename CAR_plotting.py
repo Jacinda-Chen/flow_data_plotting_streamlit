@@ -7,6 +7,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from adjustText import adjust_text
 
+# import streamlit (website browser) and st_aggrid (aesthetic table)
 import streamlit as st
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 
@@ -22,6 +23,7 @@ if uploaded_file is not None:
     # Store groups
     groups = ['None']
     y_groups = []
+    # Store groups for categorical labels of groups less than or equal to 10
     for column in df.columns.tolist():
         if str(df.dtypes[column]) == "object":
             if len(set(df[column])) <= 10:
@@ -105,6 +107,8 @@ if uploaded_file is not None:
             annotation_option = st.selectbox('Annotation Option', groups[1:])
 
     # Plotting with seaborn
+
+    # Plot scatter plot
     if plot_option == 'Scatter':
         if grouping_option == 'None':
             hue = None
@@ -113,6 +117,7 @@ if uploaded_file is not None:
         fig, ax = plt.subplots()
         sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option)
         
+        # Annotate
         adjusttext = []
 
         def label_point(x, y, val, ax):
@@ -128,6 +133,7 @@ if uploaded_file is not None:
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
         plt.ylim(0, None)
         plt.xlim(0, None)
+        ax.set_xticklabels(ax.get_xticklabels(),rotation = 90)
         st.pyplot(fig)
 
     elif plot_option == 'Bar':
