@@ -38,17 +38,17 @@ if uploaded_file is not None:
     enable_selection=True
     if enable_selection:
         st.sidebar.subheader("Plotting Options")
-        selection_mode = st.sidebar.radio("Selection Mode", ['single','multiple'], index=1)
+        rowMultiSelectWithClick = st.sidebar.checkbox("Multiselect with click (instead of holding CTRL)", value=False)
         
         use_checkbox = True
 
-        if ((selection_mode == 'multiple') & (not use_checkbox)):
+        '''if ((selection_mode == 'multiple') & (not use_checkbox)):
             rowMultiSelectWithClick = st.sidebar.checkbox("Multiselect with click (instead of holding CTRL)", value=False)
             if not rowMultiSelectWithClick:
                 suppressRowDeselection = st.sidebar.checkbox("Suppress deselection (while holding CTRL)", value=False)
             else:
                 suppressRowDeselection=False
-        st.sidebar.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        st.sidebar.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")'''
     
  
   #Infer basic colDefs from dataframe types
