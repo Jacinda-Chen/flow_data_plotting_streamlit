@@ -105,6 +105,7 @@ if uploaded_file is not None:
             palette_option = st.selectbox('Palette Option', ['Set1', 'Set2', 'Set1_r', 'Set2_r', 'Paired', 'Accent'])
         if plot_option != "Histogram" and plot_option != "Bar":
             annotation_option = st.selectbox('Annotation Option', groups[1:])
+        number = st.number_input("Insert max y-axis")
 
     # Plotting with seaborn
 
@@ -133,6 +134,7 @@ if uploaded_file is not None:
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
         plt.ylim(0, None)
         plt.xlim(0, None)
+        # Rotate x tick labels by 90 degrees
         plt.xticks(rotation=90)
         st.pyplot(fig)
 
