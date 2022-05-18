@@ -133,7 +133,7 @@ if uploaded_file is not None:
         plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         plt.rcParams['figure.figsize'] = (figure_size_option, figure_size_option)
         # set y axis max if user entered a number
-        if number != 0:
+        if number == 0:
             plt.ylim(0, None)
         else: plt.ylim(0, number)
         plt.xlim(0, None)
