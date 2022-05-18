@@ -37,20 +37,10 @@ if uploaded_file is not None:
     #features
     enable_selection=True
     if enable_selection:
-        '''st.sidebar.subheader("Plotting Options")'''
         selection_mode = 'multiple'
         
         use_checkbox = True
-
-        '''if ((selection_mode == 'multiple') & (not use_checkbox)):
-            rowMultiSelectWithClick = st.sidebar.checkbox("Multiselect with click (instead of holding CTRL)", value=False)
-            if not rowMultiSelectWithClick:
-                suppressRowDeselection = st.sidebar.checkbox("Suppress deselection (while holding CTRL)", value=False)
-            else:
-                suppressRowDeselection=False
-        st.sidebar.text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")'''
     
- 
   #Infer basic colDefs from dataframe types
     gb = GridOptionsBuilder.from_dataframe(df)
 
@@ -62,8 +52,6 @@ if uploaded_file is not None:
         gb.configure_selection(selection_mode)
         if use_checkbox:
             gb.configure_selection(selection_mode, use_checkbox=True)
-        if ((selection_mode == 'multiple') & (not use_checkbox)):
-            gb.configure_selection(selection_mode, use_checkbox=False, rowMultiSelectWithClick=rowMultiSelectWithClick, suppressRowDeselection=suppressRowDeselection)
 
     gb.configure_grid_options(domLayout='normal')
     gb.configure_column(df.columns.tolist()[0], headerCheckboxSelection = True)
