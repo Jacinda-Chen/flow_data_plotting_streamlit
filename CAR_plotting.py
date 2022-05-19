@@ -107,7 +107,7 @@ if uploaded_file is not None:
         else:
             hue = grouping_option
         fig, ax = plt.subplots()
-        sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option)
+        sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, s = 100, hue = hue, palette = palette_option)
         
         # Annotate
         adjusttext = []
@@ -123,14 +123,28 @@ if uploaded_file is not None:
 
         plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
-        # set y axis max if user entered a number
+
+        # set x and y axis min 
+        ymin = df[y_axis_option].min()
+        ymax = df[y_axis_option].max()
+        yrange = ymax - ymin
+
+        # Rotate xlabels if data type is string
+        if df[x_axis_option].dtypes == 'object':
+            plt.xticks(rotation = 90)
+
+        # Set x and y limits
+        else:
+            xmin = df[x_axis_option].min()
+            xmax = df[x_axis_option].max()
+            xrange = xmax - xmin
+
+            ax.set_xlim([xmin - 0.2*xrange, xmax + 0.2*xrange])
+
         if number == 0:
-            plt.ylim(0, None)
-        else: plt.ylim(0, number)
-        # set xlim to -1
-        plt.xlim(-1, None)
-        # Rotate x tick labels by 90 degrees
-        plt.xticks(rotation=90)
+            ax.set_ylim([ymin - 0.2*yrange, ymax + 0.2*yrange])
+        else: ax.set_ylim([ymin - 0.2*yrange, number])
+
         st.pyplot(fig)
 
     # Plot Bar
@@ -141,20 +155,29 @@ if uploaded_file is not None:
             hue = grouping_option
         fig, ax = plt.subplots()
         ax = sns.barplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option, dodge = False)
-        ax.set_xticklabels(ax.get_xticklabels(),rotation = 90)
+        
+        # set x and y axis min 
+        ymin = df[y_axis_option].min()
+        ymax = df[y_axis_option].max()
+        yrange = ymax - ymin
+
+        # Rotate xlabels 
+        plt.xticks(rotation = 90)
+            
+        if number == 0:
+            plt.ylim([0, ymax + 0.2*yrange])
+        else: plt.ylim(0, number)
+        
         plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
-        # set y axis max if user entered a number
-        if number == 0:
-            plt.ylim(0, None)
-        else: plt.ylim(0, number)
+
         st.pyplot(fig)
 
     # Plot Box Plot
     elif plot_option == 'Box':
         fig, ax = plt.subplots()
         sns.boxplot(color = "white", ax=ax, data=df, x = x_axis_option, y = y_axis_option, dodge = False)
-        ax2 = sns.swarmplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, linewidth = 2, palette = palette_option)
+        ax2 = sns.swarmplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, size = 8, linewidth = 2, palette = palette_option)
 
         tick_labels = ax.get_xticklabels()
         tick_dict = {}
@@ -174,21 +197,49 @@ if uploaded_file is not None:
         adjust_text(anno_ls, ax = ax)
 
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
-        # set y axis max if user entered a number
+        
+        # set x and y axis min 
+        ymin = df[y_axis_option].min()
+        ymax = df[y_axis_option].max()
+        yrange = ymax - ymin
+
+        # Rotate xlabels if data type is string
+        if df[x_axis_option].dtypes == 'object':
+            plt.xticks(rotation = 90)
+
+        # Set x and y limits
+        else:
+            xmin = df[x_axis_option].min()
+            xmax = df[x_axis_option].max()
+            xrange = xmax - xmin
+
+            ax.set_xlim([xmin - 0.2*xrange, xmax + 0.2*xrange])
+            
         if number == 0:
-            plt.ylim(0, None)
-        else: plt.ylim(0, number)
-        plt.xticks(rotation=90)
+            ax.set_ylim([ymin - 0.2*yrange, ymax + 0.2*yrange])
+        else: ax.set_ylim([ymin - 0.2*yrange, number])
         st.pyplot(fig)
 
     elif plot_option == "Histogram":
         fig, ax = plt.subplots()
         sns.histplot(ax=ax, data=df, x = x_axis_option)
-        ax.set_xlim(0, None)
+       
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
-        # set y axis max if user entered a number
+        
+        # set x and y axis min 
+        # Rotate xlabels if data type is string
+        if df[x_axis_option].dtypes == 'object':
+            plt.xticks(rotation = 90)
+
+        # Set x and y limits
+        else:
+            xmin = df[x_axis_option].min()
+            xmax = df[x_axis_option].max()
+            xrange = xmax - xmin
+
+            ax.set_xlim([xmin - 0.1*xrange, xmax + 0.1*xrange])
+            
         if number == 0:
-            plt.ylim(0, None)
-        else: plt.ylim(0, number)
-        plt.xticks(rotation=90)
+            ax.set_ylim([0, None])
+        else: ax.set_ylim(0, number)
         st.pyplot(fig)
