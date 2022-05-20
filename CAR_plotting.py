@@ -5,6 +5,8 @@ import seaborn as sns
 import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import re as re
+import collections as co
 from adjustText import adjust_text
 
 # import streamlit (website browser) and st_aggrid (aesthetic table)
@@ -20,6 +22,15 @@ if uploaded_file is not None:
     # Store uploaded file into df
     df=pd.read_csv(uploaded_file)
 
+    # write function to extract sample number from sample name
+    def find_number(text):
+        num = re.findall(r'[0-9]+',text)
+        return " ".join(num)
+    # apply function to the first column of the dataframe
+    df['Sorted Samples'] = df.iloc[:, 0].apply(lambda x: find_number(x)).astype(float)
+    # sort by the new column
+    df.sort_values(by = 'Sorted Samples', inplace = True, na_position = 'first')
+    
     # Store groups
     groups = ['None']
     grouping = ['None']
@@ -106,9 +117,12 @@ if uploaded_file is not None:
             hue = None
         else:
             hue = grouping_option
+            
         fig, ax = plt.subplots()
-        sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, s = 100, hue = hue, palette = palette_option)
-        
+        ax = sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, s = 100, hue = hue, palette = palette_option)
+        handles, labels = ax.get_legend_handles_labels()
+        print(handles)
+
         # Annotate
         adjusttext = []
 
@@ -121,7 +135,33 @@ if uploaded_file is not None:
             label_point(selected_df[x_axis_option], selected_df[y_axis_option], selected_df[annotation_option], ax)
             adjust_text(adjusttext)
 
-        plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
+        if grouping_option == "None":
+            plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
+        else:
+            sorted_group = pd.unique(df[grouping_option])
+            print(sorted_group)
+            grp_idx_0 = sorted_group[0]
+            if (type(grp_idx_0) == int) == True | (type(grp_idx_0) == float) == True:
+                num_dict_values = {val: idx for idx, val in enumerate(sorted_group)}
+                sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
+                order=list(sorted_dict.values())
+                plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [sorted_group[idx] for idx in order], labels = [sorted_group[idx] for idx in order])
+            elif (grp_idx_0[:1]).isalpha() == True & (grp_idx_0[-1:]).isdigit() == True:
+                num_dict_values = {val: idx for idx, val in enumerate(sorted_group)}
+                sorted_key = sorted(num_dict_values.keys(), key=lambda x: int("".join([i for i in x if i.isdigit()])))
+                sorted_dict = {}
+                for i in sorted_key:
+                    for key, value in num_dict_values.items():
+                        if key == i:
+                            sorted_dict[key] = value
+                order=list(sorted_dict.values())
+                plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [sorted_group[idx] for idx in order], labels = [sorted_group[idx] for idx in order])
+            else:
+                num_dict_values = {val: idx for idx, val in enumerate(sorted_group)}
+                sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
+                order=list(sorted_dict.values())
+                plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [sorted_group[idx] for idx in order], labels = [sorted_group[idx] for idx in order])
+
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
 
         # set x and y axis min 
