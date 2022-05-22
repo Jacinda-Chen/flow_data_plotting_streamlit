@@ -25,7 +25,8 @@ if uploaded_file is not None:
     # write function to extract sample number from sample name
     def find_number(text):
         num = re.findall(r'[0-9]+',text)
-        return " ".join(num)
+        sorted_num = " ".join(num)
+        return sorted_num.replace(" ", ".")
     # apply function to the first column of the dataframe
     df['Sorted Samples'] = df.iloc[:, 0].apply(lambda x: find_number(x)).astype(float)
     # sort by the new column
