@@ -121,7 +121,6 @@ if uploaded_file is not None:
         fig, ax = plt.subplots()
         ax = sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, s = 100, hue = hue, palette = palette_option)
         handles, labels = ax.get_legend_handles_labels()
-        print(labels)
 
         # Annotate
         adjusttext = []
@@ -191,7 +190,8 @@ if uploaded_file is not None:
             hue = grouping_option
         fig, ax = plt.subplots()
         ax = sns.barplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option, dodge = False)
-        
+        handles, labels = ax.get_legend_handles_labels()
+
         # set x and y axis min 
         ymin = df[y_axis_option].min()
         ymax = df[y_axis_option].max()
@@ -204,7 +204,28 @@ if uploaded_file is not None:
             plt.ylim([0, ymax + 0.2*yrange])
         else: plt.ylim(0, number)
         
-        plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
+        if grouping_option == "None":
+            plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
+        else:
+            labels_idx_0 = labels[0]
+            if (type(labels_idx_0) == int) == True | (type(labels_idx_0) == float) == True:
+                num_dict_values = {val: idx for idx, val in enumerate(labels)}
+                sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
+                order=list(sorted_dict.values())
+            elif (labels_idx_0[:1]).isalpha() & (labels_idx_0[-1:]).isdigit():
+                num_dict_values = {val: idx for idx, val in enumerate(labels)}
+                sorted_key = sorted(num_dict_values.keys(), key=lambda x: int("".join([i for i in x if i.isdigit()])))
+                sorted_dict = {}
+                for i in sorted_key:
+                    for key, value in num_dict_values.items():
+                        if key == i:
+                            sorted_dict[key] = value
+                order=list(sorted_dict.values())
+            else:
+                num_dict_values = {val: idx for idx, val in enumerate(labels)}
+                sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
+                order=list(sorted_dict.values())
+            plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [handles[idx] for idx in order], labels = [labels[idx] for idx in order])
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
 
         st.pyplot(fig)
