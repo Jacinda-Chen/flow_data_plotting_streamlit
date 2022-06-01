@@ -177,7 +177,7 @@ if uploaded_file is not None:
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
                 sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
                 order=list(sorted_dict.values())
-            plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [handles[idx] for idx in order], labels = [labels[idx] for idx in order])
+            plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [handles[idx] for idx in order], labels = [labels[idx] for idx in order], title = grouping_option)
 
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
 
@@ -251,7 +251,7 @@ if uploaded_file is not None:
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
                 sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
                 order=list(sorted_dict.values())
-            plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [handles[idx] for idx in order], labels = [labels[idx] for idx in order])
+            plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0, handles = [handles[idx] for idx in order], labels = [labels[idx] for idx in order], title = grouping_option)
         plt.rcParams['figure.figsize'] = (figure_size_option_x, figure_size_option_y)
 
         st.pyplot(fig)
