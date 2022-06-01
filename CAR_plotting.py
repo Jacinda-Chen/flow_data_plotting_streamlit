@@ -26,6 +26,8 @@ if uploaded_file is not None:
     def find_number(text):
         num = re.findall(r'[0-9]+',text)
         sorted_num = " ".join(num)
+        if sorted_num == '':
+            return "0"
         return sorted_num.replace(" ", ".")
     # apply function to the first column of the dataframe
     df['Sorted Samples'] = df.iloc[:, 0].apply(lambda x: find_number(x)).astype(float)
@@ -55,7 +57,7 @@ if uploaded_file is not None:
         selection_mode = 'multiple'
         
         use_checkbox = True
-    
+    df = df.loc[:, df.columns != 'Sorted Samples']
   #Infer basic colDefs from dataframe types
     gb = GridOptionsBuilder.from_dataframe(df)
 
@@ -138,6 +140,7 @@ if uploaded_file is not None:
         if grouping_option == "None":
             plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         else:
+            # sort labels alphabetically, numerically
             labels_idx_0 = labels[0]
             if (type(labels_idx_0) == int) == True | (type(labels_idx_0) == float) == True:
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
@@ -145,7 +148,8 @@ if uploaded_file is not None:
                 order=list(sorted_dict.values())
             elif (labels_idx_0[:1]).isalpha() & (labels_idx_0[-1:]).isdigit():
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
-                sorted_key = sorted(num_dict_values.keys(), key=lambda x: int("".join([i for i in x if i.isdigit()])))
+                sorted_key = sorted(num_dict_values.keys(), key=lambda x: float(0 if ("".join([i for i in x if i.isdigit() or i == '.'])) == '' else ("".join([i for i in x if i.isdigit() or i == '.']))))
+                print(sorted_key)
                 sorted_dict = {}
                 for i in sorted_key:
                     for key, value in num_dict_values.items():
