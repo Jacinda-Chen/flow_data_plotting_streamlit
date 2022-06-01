@@ -115,7 +115,7 @@ if uploaded_file is not None:
     if df[x_axis_option].dtypes == 'object':
             is_alpha_number = False
             for i in range(len(df)):
-                if df.iloc[i][x_axis_option][:1].isalpha() and df.iloc[i][x_axis_option][-1:].isdigit():
+                if str(df.iloc[i][x_axis_option])[:1].isalpha() and str(df.iloc[i][x_axis_option])[-1:].isdigit():
                     is_alpha_number = True
             if is_alpha_number:
                 # apply function to the selected column of the dataframe
@@ -232,7 +232,7 @@ if uploaded_file is not None:
         else:
             is_alpha_number = False
             for i in range(len(df)):
-                if df.iloc[i][grouping_option][:1].isalpha() and df.iloc[i][grouping_option][-1:].isdigit():
+                if str(df.iloc[i][grouping_option])[:1].isalpha() and str(df.iloc[i][grouping_option])[-1:].isdigit():
                     is_alpha_number = True
             labels_idx_0 = labels[0]
             if (type(labels_idx_0) == int) == True | (type(labels_idx_0) == float) == True:
