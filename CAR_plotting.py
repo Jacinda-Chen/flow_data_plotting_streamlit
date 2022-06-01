@@ -1,4 +1,5 @@
 # import libraries
+from operator import contains
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -29,10 +30,6 @@ if uploaded_file is not None:
         if sorted_num == '':
             return "0"
         return sorted_num.replace(" ", ".")
-    # apply function to the first column of the dataframe
-    df['Sorted Samples'] = df.iloc[:, 0].apply(lambda x: find_number(x)).astype(float)
-    # sort by the new column
-    df.sort_values(by = 'Sorted Samples', inplace = True, na_position = 'first')
     
     # Store groups
     groups = ['None']
@@ -114,13 +111,28 @@ if uploaded_file is not None:
 
     # Plotting with seaborn
 
+    if df[x_axis_option].dtypes == 'object':
+            is_alpha_number = False
+            for i in range(len(df)):
+                if df.iloc[i][x_axis_option][:1].isalpha() and df.iloc[i][x_axis_option][-1:].isdigit():
+                    is_alpha_number = True
+            if is_alpha_number:
+                # apply function to the selected column of the dataframe
+                df['Sorted X Samples'] = df[x_axis_option].apply(lambda x: find_number(x)).astype(float)
+                # sort by the new column
+                df.sort_values(by = 'Sorted X Samples', inplace = True, na_position = 'first')
+                #print(df['Sorted X Samples'])
+            else: 
+                df.sort_values(by = x_axis_option, inplace = True, na_position = 'first')
+                #print(x_axis_option)
+
     # Plot scatter plot
     if plot_option == 'Scatter':
         if grouping_option == 'None':
             hue = None
         else:
             hue = grouping_option
-            
+        
         fig, ax = plt.subplots()
         ax = sns.scatterplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, s = 100, hue = hue, palette = palette_option)
         handles, labels = ax.get_legend_handles_labels()
@@ -141,15 +153,19 @@ if uploaded_file is not None:
             plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         else:
             # sort labels alphabetically, numerically
+            is_alpha_number = False
+            for i in range(len(df)):
+                if df.iloc[i][grouping_option][:1].isalpha() and df.iloc[i][grouping_option][-1:].isdigit():
+                    is_alpha_number = True
             labels_idx_0 = labels[0]
             if (type(labels_idx_0) == int) == True | (type(labels_idx_0) == float) == True:
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
                 sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
                 order=list(sorted_dict.values())
-            elif (labels_idx_0[:1]).isalpha() & (labels_idx_0[-1:]).isdigit():
+            elif is_alpha_number:
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
                 sorted_key = sorted(num_dict_values.keys(), key=lambda x: float(0 if ("".join([i for i in x if i.isdigit() or i == '.'])) == '' else ("".join([i for i in x if i.isdigit() or i == '.']))))
-                print(sorted_key)
+               # print(sorted_key)
                 sorted_dict = {}
                 for i in sorted_key:
                     for key, value in num_dict_values.items():
@@ -157,6 +173,7 @@ if uploaded_file is not None:
                             sorted_dict[key] = value
                 order=list(sorted_dict.values())
             else:
+                print("THIS RAN")
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
                 sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
                 order=list(sorted_dict.values())
@@ -212,14 +229,18 @@ if uploaded_file is not None:
         if grouping_option == "None":
             plt.legend(bbox_to_anchor=(1.02, 1), loc = 'upper left', borderaxespad=0)
         else:
+            is_alpha_number = False
+            for i in range(len(df)):
+                if df.iloc[i][grouping_option][:1].isalpha() and df.iloc[i][grouping_option][-1:].isdigit():
+                    is_alpha_number = True
             labels_idx_0 = labels[0]
             if (type(labels_idx_0) == int) == True | (type(labels_idx_0) == float) == True:
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
                 sorted_dict = co.OrderedDict(sorted(num_dict_values.items()))
                 order=list(sorted_dict.values())
-            elif (labels_idx_0[:1]).isalpha() & (labels_idx_0[-1:]).isdigit():
+            elif is_alpha_number:
                 num_dict_values = {val: idx for idx, val in enumerate(labels)}
-                sorted_key = sorted(num_dict_values.keys(), key=lambda x: int("".join([i for i in x if i.isdigit()])))
+                sorted_key = sorted(num_dict_values.keys(), key=lambda x: float(0 if ("".join([i for i in x if i.isdigit() or i == '.'])) == '' else ("".join([i for i in x if i.isdigit() or i == '.']))))
                 sorted_dict = {}
                 for i in sorted_key:
                     for key, value in num_dict_values.items():
