@@ -14,7 +14,7 @@ from adjustText import adjust_text
 import streamlit as st
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 
-st.markdown("<h1 style = 'text-align: center;'>Plotting CAR Screen Data</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style = 'text-align: center;'>Plotting Data</h1>", unsafe_allow_html=True)
 
 # upload file
 uploaded_file = st.file_uploader("Upload a CSV/Excel file!", type=['.xlsx', '.xls', '.csv'], accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None)
@@ -22,6 +22,7 @@ uploaded_file = st.file_uploader("Upload a CSV/Excel file!", type=['.xlsx', '.xl
 if uploaded_file is not None:
     # Store uploaded file into df
     df=pd.read_csv(uploaded_file)
+    df.fillna("Unknown", inplace = True)
 
     # write function to extract sample number from sample name
     def find_number(text):
