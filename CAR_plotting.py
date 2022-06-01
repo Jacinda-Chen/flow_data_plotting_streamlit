@@ -156,7 +156,7 @@ if uploaded_file is not None:
             # sort labels alphabetically, numerically
             is_alpha_number = False
             for i in range(len(df)):
-                if df.iloc[i][grouping_option][:1].isalpha() and df.iloc[i][grouping_option][-1:].isdigit():
+                if str(df.iloc[i][grouping_option])[:1].isalpha() and str(df.iloc[i][grouping_option])[-1:].isdigit():
                     is_alpha_number = True
             labels_idx_0 = labels[0]
             if (type(labels_idx_0) == int) == True | (type(labels_idx_0) == float) == True:
