@@ -93,6 +93,7 @@ if uploaded_file is not None:
         plot_option = st.selectbox('Plot Option', ['Scatter', 'Bar', 'Box', 'Histogram'])
         figure_size_option_x = st.slider('Figure Size X Option', 5, 15, 10)
         figure_size_option_y = st.slider('Figure Size Y Option', 5, 15, 5)
+        remove_unknown_box = st.checkbox('Remove Unknowns')
         if plot_option == "Box":
             x_axis_option = st.selectbox('X-Axis', groups[1:])
         elif plot_option == "Histogram":
@@ -111,6 +112,9 @@ if uploaded_file is not None:
             annotation_option = st.selectbox('Annotation Option', groups[1:])
 
     # Plotting with seaborn
+    if remove_unknown_box:
+        df = df[df[grouping_option] != 'Unknown']
+        df = df[df[grouping_option] != 'unknown']
 
     if df[x_axis_option].dtypes == 'object':
             is_alpha_number = False
