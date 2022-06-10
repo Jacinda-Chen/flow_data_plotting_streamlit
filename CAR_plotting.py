@@ -215,8 +215,9 @@ if uploaded_file is not None:
             hue = None
         else:
             hue = grouping_option
+
         fig, ax = plt.subplots()
-        ax = sns.barplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option, dodge = False)
+        ax = sns.barplot(ax=ax, data=df, x = x_axis_option, y = y_axis_option, hue = hue, palette = palette_option)
         handles, labels = ax.get_legend_handles_labels()
 
         # set x and y axis min 
